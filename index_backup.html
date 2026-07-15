@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Zhuo Li's Homepage</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Zhuo Li">
+    <meta name="description" content="Homepage of Zhuo Li">
+    
+    <!-- Reuse existing assets -->
+    <link href="./src/css" rel="stylesheet">
+    <link href="./src/css(1)" rel="stylesheet">
+    <link href="./src/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link rel="icon" type="image/png" href="./src/icon.png">
+
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --accent-color: #3498db;
+            --bg-color: #f8f9fa;
+            --card-bg: #ffffff;
+            --text-color: #333;
+            --text-muted: #666;
+        }
+
+        body {
+            font-family: 'Lato', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        /* Navbar */
+        .navbar-custom {
+            background-color: var(--card-bg);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            padding: 15px 0;
+            margin-bottom: 30px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        .navbar-custom a {
+            color: var(--primary-color);
+            font-weight: 600;
+            margin-right: 20px;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .navbar-custom a:hover {
+            color: var(--accent-color);
+        }
+
+        /* Profile Section */
+        .profile-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+        }
+        .profile-img {
+            border-radius: 50%;
+            width: 180px;
+            height: 180px;
+            object-fit: cover;
+            border: 4px solid #fff;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            margin-right: 30px;
+        }
+        
+        h1 {
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-top: 0;
+        }
+
+        h3 {
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-top: 30px;
+            border-bottom: 2px solid #e9ecef;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        
+        /* Badges */
+        .badge-conf {
+            background-color: var(--accent-color);
+            color: white;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.8em;
+            font-weight: bold;
+            display: inline-block;
+            margin-left: 5px;
+        }
+        .badge-oral {
+            background-color: #e74c3c;
+            color: white;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.8em;
+            font-weight: bold;
+        }
+
+        /* Publications */
+        .pub-section-title {
+            background-color: #e9ecef;
+            color: var(--primary-color);
+            padding: 10px 15px;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-top: 15px;
+            font-weight: bold;
+            border: none;
+            width: 100%;
+            text-align: left;
+            transition: background 0.2s;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .pub-section-title:hover {
+            background-color: #dde2e6;
+        }
+        .pub-section-title::after {
+            content: '+';
+            font-size: 1.2em;
+        }
+        .pub-section-title.active::after {
+            content: '-';
+        }
+
+        .pub-list {
+            list-style: none;
+            padding-left: 0;
+            display: none; /* Hidden by default per original, controlled by JS */
+            margin-top: 10px;
+        }
+        .pub-list.show {
+            display: block;
+        }
+        .pub-list li {
+            background: var(--card-bg);
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            border-left: 4px solid var(--accent-color);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+            transition: transform 0.2s;
+        }
+        .pub-list li:hover {
+            transform: translateX(5px);
+        }
+
+        /* Social Links */
+        .social-link {
+            display: inline-block;
+            margin-right: 10px;
+            background: #e9ecef;
+            padding: 5px 10px;
+            border-radius: 20px;
+            color: var(--text-color);
+            font-size: 0.9em;
+            text-decoration: none;
+        }
+        .social-link:hover {
+            background: var(--accent-color);
+            color: white;
+            text-decoration: none;
+        }
+
+        /* News */
+        .news-list {
+            list-style: none;
+            padding-left: 0;
+        }
+        .news-list li {
+            margin-bottom: 8px;
+            display: flex;
+        }
+        .news-date {
+            font-weight: bold;
+            min-width: 80px;
+            color: var(--accent-color);
+        }
+
+        /* Responsive adjustments */
+        .container {
+            max-width: 1140px;
+            width: 100%; /* Ensure it doesn't overflow on small screens */
+            padding-left: 15px;
+            padding-right: 15px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        @media (max-width: 768px) {
+            .navbar-custom .container {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 10px;
+            }
+            .navbar-custom a {
+                margin-right: 10px;
+                margin-left: 10px;
+                font-size: 14px;
+            }
+            
+            .profile-card {
+                flex-direction: column;
+                text-align: center;
+                padding: 20px;
+            }
+            
+            .profile-img {
+                margin-right: 0;
+                margin-bottom: 20px;
+                width: 140px;
+                height: 140px;
+            }
+
+            .profile-card h1 {
+                margin-top: 10px;
+            }
+
+            .social-link {
+                margin: 5px;
+            }
+
+            h3 {
+                font-size: 1.5rem;
+                margin-top: 20px;
+            }
+            
+            .news-list li {
+                flex-direction: column;
+            }
+            .news-date {
+                margin-bottom: 2px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="navbar-custom">
+        <div class="container">
+            <a href="#">Home</a>
+            <a href="#bio">About</a>
+            <a href="#news">News</a>
+            <a href="#publications">Publications</a>
+            <a href="#teaching">Teaching</a>
+            <a href="#awards">Awards</a>
+        </div>
+    </div>
+
+<div class="container">
+
+<div class="profile-card">
+    <div>
+        <img class="img-responsive profile-img" src="./src/zhuoli2.jpg" alt="Zhuo Li">
+    </div>
+    <div style="flex: 1;">
+        <h1>Zhuo Li</h1>
+        <p style="font-size: 16px; margin-bottom: 15px;">Researcher @ <a href="https://huggingface.co/inclusionAI" target="_blank">Ling Team, Ant Group</a></p>
+        <!-- <p style="font-size: 16px; margin-bottom: 15px;">PhD @ <a href="https://www.cuhk.edu.cn/en" target="_blank">CUHK-Shenzhen</a></p> -->
+        <p class="text-muted">
+            <b>Research Interests:</b> Data-centric Machine Learning, Probabilistic Methods, Representation Learning, LLM Alignment & RLHF.
+        </p>
+        <p>
+            <!-- <b>Email</b>: <tt>byebir.lz AT antgroup.com</tt> -->
+            <b>Email</b>: <tt>zhuoli3 AT link.cuhk.edu.cn</tt>
+        </p>
+        <div style="margin-top: 15px;">
+            <a href="https://scholar.google.com/citations?user=ycgt5hMAAAAJ&hl=zh-CN" class="social-link" target="_blank">Google Scholar</a>
+            <!-- Placeholders for other links -->
+            <!-- <a href="#" class="social-link">GitHub</a> -->
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <h3 id="bio">About Me</h3>
+        <!-- <p>
+            Hi, I am <b>Zhuo Li</b>. I obtained my PhD at The Chinese University of Hong Kong, Shenzhen, supervised by <a href="https://www.sribd.cn/en/teacher/28">Dr. Xiang Wan</a> and <a href="https://myweb.cuhk.edu.cn/changtsunghui/Home/Index">Prof. Tsung-Hui Chang</a> in 2026. 
+            I obtained a B.E. degree in Data Science from Central South University in 2020. My research interests lie in data-centric machine learning and probabilistic methods. Currently, I am focused on aligning Large Language Models (LLMs) with downstream tasks and human preferences, including Reward Modeling and RLHF.
+        </p> -->
+        <p>Hi, I am <b>Zhuo Li</b>. I am currently a Researcher at the Bailing LLM team at Ant Group, focusing on foundational model pre-training and aligning LLMs with human preferences, including Reward Modeling and RLHF. Prior to joining Ant Group, I obtained my PhD in 2026 from The Chinese University of Hong Kong, Shenzhen, where I was supervised by <a href="https://www.sribd.cn/en/teacher/28" target="_blank">Dr. Xiang Wan</a> and <a href="https://myweb.cuhk.edu.cn/changtsunghui/Home/Index" target="_blank">Prof. Tsung-Hui Chang</a>. My research interests lie in data-centric machine learning and probabilistic methods.
+         I am always open to research collaborations and discussions. Please feel free to reach out.</p>
+    </div>
+</div>
+
+<h3 id="news">News</h3>
+<div style="background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.02); max-height: 300px; overflow-y: auto;">
+    <ul class="news-list">
+        <li><span class="news-date">01/2026</span> <span>One paper accepted by <b>ICML 2026</b> <span class="badge-oral">Oral</span>.</span></span></li>
+        <li><span class="news-date">01/2026</span> <span>Three paper accepted by <b>ACL 2026</b>.</span></li>
+        <li><span class="news-date">01/2026</span> <span>One paper accepted by <b>ICLR 2026</b>.</span></li>
+        <li><span class="news-date">08/2025</span> <span>One paper accepted by <b>AAAI 2025</b>.</span></li>
+        <li><span class="news-date">08/2025</span> <span>One paper accepted by <b>NeurIPS 2025</b>.</span></li>
+        <li><span class="news-date">08/2025</span> <span>Two papers accepted by <b>EMNLP 2025</b>.</span></li>
+        <li><span class="news-date">07/2025</span> <span>One paper accepted by <b>TMLR 2025</b>.</span></li>
+        <li><span class="news-date">07/2025</span> <span>One paper accepted by <b>ACMMM 2025</b> <span class="badge-oral">Oral</span>.</span></li>
+        <li><span class="news-date">05/2025</span> <span>One paper accepted by <b>TMLR 2025</b>.</span></li>
+        <li><span class="news-date">05/2025</span> <span>One paper accepted by <b>ACL 2025</b> <span class="badge-oral">Oral</span>.</span></li>
+        <li><span class="news-date">02/2025</span> <span>One paper accepted by <b>TCSVT 2025</b>.</span></li>
+        <li><span class="news-date">01/2025</span> <span>One paper accepted by <b>NAACL 2025</b>.</span></li>
+    </ul>
+</div>
+
+<h3 id="publications">Selected Publications</h3>
+
+<!-- Category 1 -->
+<div class="pub-category">
+    <button class="pub-section-title" onclick="togglePubs('rlhf', this)">
+        Reward Modeling, RLHF and Data Curation for LLM
+    </button>
+    <ul id="rlhf" class="pub-list">
+        <li>
+            <a href="https://arxiv.org/abs/2602.10623" target="_blank">Mitigating Reward Hacking in RLHF via Bayesian Non-negative Reward Modeling</a>
+            <span class="badge-conf">ICML 2026</span> <span class="badge-oral">Oral</span>
+            <br>
+            Zhibin Duan, Guowei Rong, <b>Zhuo Li</b>, Bo Chen, Mingyuan Zhou, Dandan Guo
+            <br>
+            [<a href="https://github.com/GuoweiRong/Bayesian-Non-negative-Reward-Model" target="_blank">Code</a>]
+        </li>
+        <li>
+            <a href="https://arxiv.org/pdf/2603.24579" target="_blank">MARCH: Multi-Agent Reinforced Check for Hallucination</a>
+            <span class="badge-conf">ACL 2026</span>
+            <br>
+            <b>Zhuo Li*</b>, Yupeng Zhang*, Pengyu Cheng, Jiajun Song, Mengyu Zhou, Hao Li, Shujie Hu, Yu Qin, Erchao Zhao, Xiaoxi Jiang, Guanjun Jiang
+            <br>
+            [<a href="https://github.com/Qwen-Applications/MARCH" target="_blank">Code</a>]
+        </li>
+        <li>
+            <a href="https://arxiv.org/abs/2512.23461" target="_blank">Eliminating Inductive Bias in Reward Models with Information-Theoretic Guidance</a>
+            <span class="badge-conf">ICLR 2026</span>
+            <br>
+            <b>Zhuo Li</b>, Pengyu Cheng, Zhechao Yu, Feifei Tong, Anningzhe Gao, Tsung-Hui Chang, Xiang Wan, Erchao Zhao, Xiaoxi Jiang, Guanjun Jiang.
+            <br>
+            [<a href="https://github.com/Qwen-Applications/DIR" target="_blank">Code</a>]
+        </li>
+        <li>
+            <a href="https://aclanthology.org/2025.emnlp-main.281.pdf" target="_blank">APLOT: Robust Reward Modeling via Adaptive Preference Learning with Optimal Transport</a>
+            <span class="badge-conf">EMNLP 2025</span>
+            <br>
+            <b>Zhuo Li</b>, Yuege Feng, Dandan Guo, Jinpeng Hu, Anningzhe Gao, Xiang Wan.
+            <br>
+            [<a href="https://github.com/BIRlz/APLOT" target="_blank">Code</a>]
+        </li>
+        <li>
+            <a href="https://arxiv.org/abs/2502.11026" target="_blank">RLHF in an SFT Way: From Optimal Solution to Reward-Weighted Alignment</a>
+            <span class="badge-conf">TMLR</span>
+            <br>
+            Yuhao Du*, <b>Zhuo Li*</b>, Pengyu Cheng*, Zhihong Chen, Yuejiao Xie, Xiang Wan, Anningzhe Gao.
+            <br>
+            [<a href="https://github.com/DuYooho/VAR" target="_blank">Code</a>]
+        </li>
+        <li>
+            <a href="https://arxiv.org/abs/2503.02359" target="_blank">Add-One-In: Incremental Sample Selection for Large Language Models via a Choice-Based Greedy Paradigm</a>
+            <span class="badge-conf">EMNLP 2025</span>
+            <br>
+            <b>Zhuo Li</b>, Yuhao Du, Xiaoqi Jiao, Steven Y. Guo, Yuege Geng, Xiang Wan, Anningzhe Gao, Jinpeng Hu.
+            <br>
+            [<a href="https://github.com/BIRlz/comperative_sample_selection" target="_blank">Code</a>]
+        </li>
+    </ul>
+</div>
+
+<!-- Category 2 -->
+<div class="pub-category">
+    <button class="pub-section-title" onclick="togglePubs('prompt', this)">
+        Prompt Engineering and Task-Specific Modeling for NLP
+    </button>
+    <ul id="prompt" class="pub-list">
+        <li>
+            <a href="https://arxiv.org/pdf/2601.07200" target="_blank">Safeguarding LLM Fine-tuning via Push-Pull Distributional Alignment</a>
+            <span class="badge-conf">ACL 2026</span>
+            <br>
+            Haozhong Wang*, <b>Zhuo Li*</b>, Yibo Yang, He Zhao, Hongyuan Zha, Dandan Guo.
+            <br>
+            [<a href="https://github.com/kasaer/SOT" target="_blank">Code</a>]
+        </li>
+        <li>
+            <a href="https://arxiv.org/abs/2408.14853" target="_blank">Atoxia: Red-teaming Large Language Models with Target Toxic Answers</a>
+            <span class="badge-conf">NAACL 2025</span>
+            <br>
+            Yuhao Du*, <b>Zhuo Li*</b>, Pengyu Cheng, Xiang Wan, Anningzhe Gao.
+            <br>
+            <!-- [<a href="https://github.com/DuYooho/Atoxia" target="_blank">Code</a>] -->
+        </li>
+        <li>
+            <a href="https://arxiv.org/abs/2409.01552" target="_blank">Self-Instructed Derived Prompt Generation Meets In-Context Learning</a>
+            <span class="badge-conf">ACL 2025</span> <span class="badge-oral">Oral</span>
+            <br>
+            <b>Zhuo Li*</b>, Yuhao Du*, Jinpeng Hu, Xiang Wan, Anningzhe Gao.
+        </li>
+        <li>
+            <a href="https://ojs.aaai.org/index.php/AAAI/article/view/26515" target="_blank">A Simple yet Effective Subsequence-Enhanced Approach for Cross-Domain NER</a>
+            <span class="badge-conf">AAAI 2023</span> <span class="badge-oral">Oral</span>
+            <br>
+            Jinpeng Hu, Dandan Guo, Yang Liu, <b>Zhuo Li</b>, Zhihong Chen, Xiang Wan, Tsung-Hui Chang.
+        </li>
+        <li>
+            <a href="https://arxiv.org/abs/2204.00203" target="_blank">Graph Enhanced Contrastive Learning for Radiology Findings Summarization</a>
+            <span class="badge-conf">ACL 2022</span>
+            <br>
+            Jinpeng Hu*, <b>Zhuo Li*</b>, Zhihong Chen, Zhen Li, Xiang Wan, Tsung-Hui Chang.
+            <br>
+            [<a href="https://github.com/jinpeng01/AIG_CL" target="_blank">Code</a>]
+        </li>
+    </ul>
+</div>
+
+<!-- Category 3 -->
+<div class="pub-category">
+    <button class="pub-section-title" onclick="togglePubs('benchmark', this)">
+        Benchmark and Health Care-Centric LLM
+    </button>
+    <ul id="benchmark" class="pub-list">
+        <li>
+            <a href="https://arxiv.org/abs/2508.10848" target="_blank">Psyche-R1: Towards Reliable Psychological LLMs</a>
+            <span class="badge-conf">ACL 2026</span>
+            <br>
+            Chongyuan Dai, Jinpeng Hu, Hongchang Shi, <b>Zhuo Li</b>, Xun Yang, Meng Wang.
+            <br>
+            [<a href="https://github.com/MindIntLab-HFUT/Psyche-R1" target="_blank">Code</a>]
+        </li>
+        <li>
+            <a href="https://arxiv.org/abs/2508.16859" target="_blank">Beyond Emotion Recognition: A Multi-Turn Multimodal Emotion Understanding and Reasoning Benchmark</a>
+            <span class="badge-conf">ACMMM 2025</span>
+            <br>
+            Jinpeng Hu, Hongchang Shi, Chongyuan Dai, <b>Zhuo Li</b>, Peipei Song, Meng Wang.
+            <br>
+            [<a href="https://github.com/MindIntLab-HFUT/MTMEUR" target="_blank">Code</a>]
+        </li>
+        <li>
+            <a href="https://arxiv.org/abs/2508.11567" target="_blank">AgentMental: An Interactive Multi-Agent Framework for Explainable and Adaptive Mental Health Assessment</a>
+            <span class="badge-conf">AAAI 2026</span>
+            <br>
+            Jinpeng Hu, Ao Wang, Qianqian Xie, Hui Ma, <b>Zhuo Li</b>, Dan Guo.
+        </li>
+    </ul>
+</div>
+
+<!-- Category 4 -->
+<div class="pub-category">
+    <button class="pub-section-title" onclick="togglePubs('scarcity', this)">
+        Data Scarcity Scenarios
+    </button>
+    <ul id="scarcity" class="pub-list">
+        <li>
+            <a href="https://openreview.net/pdf?id=VqLe8tPbZn" target="_blank">Synthesizing Minority Samples for Long-tailed Classification via Distribution Matching</a>
+            <span class="badge-conf">TMLR 2025</span>
+            <br>
+            <b>Zhuo Li</b>, He Zhao, Zhen Li, Dandan Guo, Xiang Wan, Hongyuan Zha.
+            <br>
+            [<a href="https://github.com/BIRlz/TMLR_Syn-LT" target="_blank">Code</a>]
+        </li>
+        <li>
+            <a href="https://ieeexplore.ieee.org/abstract/document/10904873" target="_blank">Prototype-oriented Clean Subset Extraction for Noisy Long-tailed Classification</a>
+            <span class="badge-conf">TCSVT 2025</span>
+            <br>
+            <b>Zhuo Li</b>, He Zhao, Anningzhe Gao, Dandan Guo, Tsunghui Chang, Xiang Wan.
+            <br>
+            [<a href="https://github.com/BIRlz/NLT_prototype_clean_subset_extraction" target="_blank">Code</a>]
+        </li>
+        <!-- <li>
+             <a href="" target="_blank">Boosting Visual Feature Discrimination through Textual Prototypes in Imbalanced Data Scenarios</a>
+             <span class="badge-conf">TMM (Under Review)</span>
+             <br>
+             <b>Zhuo Li</b>, He Zhao, Anningzhe Gao, Dandan Guo, Tsunghui Chang, Xiang Wan.
+        </li> -->
+        <li>
+            <a href="https://proceedings.neurips.cc/paper_files/paper/2023/file/bdabb5d4262bcfb6a1d529d690a6c82b-Paper-Conference.pdf" target="_blank">Enhancing Minority Classes by Mixing: An Adaptive Optimal Transport Approach for Long-tailed Classification</a>
+            <span class="badge-conf">NeurIPS 2023</span>
+            <br>
+            Jintong Gao, He Zhao, <b>Zhuo Li</b>, Dandan Guo.
+            <br>
+            [<a href="https://github.com/JintongGao/Enhancing-Minority-Classes-by-Mixing" target="_blank">Code</a>]
+        </li>
+        <li>
+            <a href="https://arxiv.org/abs/2208.02951" target="_blank">Learning to re-weight examples with optimal transport for imbalanced classification</a>
+            <span class="badge-conf">NeurIPS 2022</span>
+            <br>
+            Dandan Guo, <b>Zhuo Li</b>, Meixi Zheng, He Zhao, Mingyuan Zhou, Hongyuan Zha.
+            <br>
+            [<a href="https://github.com/DandanGuo1993/reweight-imbalance-classification-with-OT" target="_blank">Code</a>]
+        </li>
+        <li>
+            <a href="https://openreview.net/pdf/5df3cd0730aaf93a51acd0c41a48b60cd127721c.pdf" target="_blank">Diverse Condensed Data Generation via Class Preserving Distribution Matching</a>
+            <span class="badge-conf">TMLR</span>
+            <br>
+            Dandan Guo, <b>Zhuo Li</b>, He Zhao, Mingyuan Zhou, Hongyuan Zha.
+        </li>
+    </ul>
+</div>
+
+<!-- Category 5 -->
+<div class="pub-category">
+    <button class="pub-section-title" onclick="togglePubs('others', this)">
+        Other Papers
+    </button>
+    <ul id="others" class="pub-list">
+        <li>
+           <a href="https://ieeexplore.ieee.org/abstract/document/11293187" target="_blank">Rotary Position Embedding-Based Transformer Hawkes Process for Event-Type Big Data</a>
+           <span class="badge-conf">Big Data</span>
+           <br>
+           Shan Dai, Anningzhe Gao, <b>Zhuo Li</b>, Yuhao Du.
+        </li>
+        <li>
+           <a href="https://neurips.cc/media/neurips-2025/Slides/115431.pdf" target="_blank">Intermediate Domain Alignment and Morphology Analogy for Patent-Product Image Retrieval</a>
+           <span class="badge-conf">NeurIPS 2025</span>
+           <br>
+           Haifan Gong, Xuanye Zhang, Ruifei Zhang, Yun Su, <b>Zhuo Li</b>, Yuhao Du, Xiang Wan, Anningzhe Gao, Haofeng Li.
+           <br>
+           [<a href="https://github.com/loslorien/IDAMA" target="_blank">Code</a>]
+        </li>
+        <li>
+            <a href="https://arxiv.org/abs/2207.01821" target="_blank">Toward Explainable and Fine-Grained 3D Grounding through Referring Textual Phrases</a>
+            <span class="badge-conf">TNNLS 2024</span>
+            <br>
+            Zhihao Yuan*, Xu Yan*, <b>Zhuo Li*</b>, Xuhao Li, Yao Guo, Shuguang Cui, Zhen Li.
+            <br>
+            [<a href="https://yanx27.github.io/phraserefer/" target="_blank">Code</a>]
+        </li>
+        <li>
+            <a href="https://ieeexplore.ieee.org/document/10028324" target="_blank">Cognitive-Visual Fusion for Target Classification in Rapid SAR Image Series Visual Presentation</a>
+            <span class="badge-conf">Radar 2021</span>
+            <br>
+            Wending Zhou*, <b>Zhuo Li*</b>, Xiang Wan, Ruimao Zhang, Liangcheng Qu, Zhen Li, Kuiying Yin.
+        </li>
+    </ul>
+</div>
+
+
+<h3 id="intern">Experience</h3>
+<div style="background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
+    <ul>
+      <li style="margin-bottom: 1em;">
+        <b>Qwen, Alibaba</b> | Jul. 2025 - Feb. 2026<br>
+        Topic: Reward Hacking and RLHF. Mentor: <a href="https://linear95.github.io/">Pengyu Cheng</a>.
+      </li>
+      <li style="margin-bottom: 1em;">
+        <b>Noah's Ark Lab, Huawei</b> | Apr. 2025 - Jun. 2025<br>
+        Topic: Data Mixture for MLLM Pre-Training. Mentor: <a href="https://houlu369.github.io/">Lu Hou</a>.
+      </li>
+      <li style="margin-bottom: 1em;">
+        <b>LIGHT STUDIO, Tencent</b> | Dec. 2024 - Mar. 2025<br>
+        Topic: LLM-Based Machine Translation. Mentor: <a href="https://scholar.google.com/citations?user=VryvpBgAAAAJ&hl=en">Xiaoqi Jiao</a>.
+      </li>
+    </ul>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <h3 id="teaching">Teaching</h3>
+        <ul>
+            <li>TA, MFE5330 Regulatory Technology, Spring 2022-2025.</li>
+            <li>TA, MFE5231 Special Topic: Corporate Finance, Spring 2024-2025.</li>
+            <li>TA, MFE5190 Credit Risk Modeling, Summer 2023-2025.</li>
+        </ul>
+    </div>
+    <div class="col-md-6">
+        <h3 id="service">Service</h3>
+        <ul>
+            <li>Reviewer: NeurIPS, ICML, ICLR, IJCAI, ECCV, AISTATS, CVPR, ICCV, ACMMM, TNNLS.</li>
+        </ul>
+    </div>
+</div>
+
+<h3 id="awards">Awards</h3>
+<ul>
+    <li>Antstar 2026.</li>
+    <li>Gold Class of Shenzhen Research Institute of Big Data PhD Fellowship 2021-2025.</li>
+    <li>3rd Place Award in semantic segmentation track of Urban3D@ECCV2022.</li>
+</ul>
+
+<hr>
+<p class="text-center text-muted" style="font-size: 0.9em; margin-top: 40px; margin-bottom: 40px;">
+    Last update: 05/2026.
+</p>
+
+</div>
+
+<script>
+// Open the first one by default
+// document.getElementById('rlhf').classList.add('show');
+// document.querySelector('.pub-section-title').classList.add('active');
+
+function togglePubs(id, btn) {
+    var x = document.getElementById(id);
+    if (x.classList.contains('show')) {
+        x.classList.remove('show');
+        btn.classList.remove('active');
+    } else {
+        x.classList.add('show');
+        btn.classList.add('active');
+    }
+}
+</script>
+
+</body>
+</html>
